@@ -1,3 +1,5 @@
+
+const 词典文件 = '词典数据/中文释义.json'
 var 词典数据 = {};
 
 function 格式化(释义) {
@@ -24,24 +26,10 @@ function 翻译选中文本() {
   });
 }
 
-var 开始 = new Date();
-const 词典文件 = '词典数据/中文释义.json'  //测试
 fetch(chrome.runtime.getURL(词典文件))
-  .then(function(响应) {
+  .then((响应) => {
     document.body.innerHTML = "载入词典...";
     return 响应.json();
-  }, function(error) {
-    console.error("Failed!", error);
   })
-  .then(function(数据) {
-    if (Object.keys(词典数据).length === 0) {
-      词典数据 = 数据;
-      console.log("置词典时间: " + ((new Date()) - 开始)/1000 + "秒");
-      开始 = new Date();
-    } else {
-      词典数据 = 数据;
-    }
-  }, function(error) {
-    console.error("数据错误!", error);
-  })
+  .then((数据) => 词典数据 = 数据)
   .then(翻译选中文本);
