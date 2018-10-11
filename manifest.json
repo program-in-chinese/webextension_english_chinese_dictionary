@@ -8,15 +8,16 @@
   "homepage_url": "https://github.com/program-in-chinese/webextension_english_chinese_dictionary",
 
   "permissions": [
-    "activeTab",
-    "<all_urls>"
+    "activeTab"
   ],
 
   "browser_action": {
     "default_title": "离线英汉词典",
     "default_popup": "弹窗/主界面.html"
   },
-
+  "background": {
+    "scripts": ["加载词典.js"]
+  },
   "web_accessible_resources": [
     "词典数据/*.json"
   ]
