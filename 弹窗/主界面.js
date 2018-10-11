@@ -1,6 +1,6 @@
 
 function 格式化(释义) {
-  return 释义.replace(/(\r\n|\\n|\r)/g, "<br/>");
+  return 释义.replace(/(\\n)/g, "<br/>");
 }
 
 function 翻译选中文本() {
@@ -13,9 +13,7 @@ function 翻译选中文本() {
       document.body.innerHTML = "无选中文本";
       return;
     }
-    console.log("选中文本: " + 选中文本);
     var 释义 = chrome.extension.getBackgroundPage().取释义(选中文本);
-    console.log("释义: " + 释义);
     document.body.innerHTML = 选中文本 + "<br/>" + (释义 ? 格式化(释义) : "未找到");
   });
 }
