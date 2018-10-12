@@ -20,7 +20,6 @@ function 载入部分词典(文件) {
   }
 }
 
-var 开始 = new Date();
 for (var 文件 in 词典文件) {
   载入部分词典(文件)();
 }

@@ -1,8 +1,3 @@
-
-function 格式化(释义) {
-  return 释义.replace(/(\\n)/g, "<br/>");
-}
-
 function 翻译选中文本() {
   chrome.tabs.executeScript({
     code: "window.getSelection().toString();"
@@ -14,6 +9,8 @@ function 翻译选中文本() {
       return;
     }
     var 词典接口 = chrome.extension.getBackgroundPage();
+
+    // TODO: 似乎无效
     if (!词典接口.已载入词典()) {
       置弹窗内容("载入词典数据中...");
       return;
