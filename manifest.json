@@ -23,7 +23,7 @@
     "96": "图标/项目_96.png"
   },
   "background": {
-    "scripts": ["加载词典.js"]
+    "scripts": ["加载词典.js", "查词.js"]
   },
   "web_accessible_resources": [
     "词典数据/词典*.json"

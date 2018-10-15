@@ -33,12 +33,6 @@ function 已载入词典() {
   return true;
 }
 
-function 取释义(选中文本) {
-  var 英文 = 选中文本.trim();
-  var 释义 = 词典数据[英文];
-  if (!释义) {
-    英文 = 英文.toLowerCase();
-    释义 = 词典数据[英文];
-  }
-  return 释义;
+function 查词(英文) {
+  return 取释义(词典数据, 英文);
 }
