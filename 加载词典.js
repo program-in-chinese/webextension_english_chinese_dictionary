@@ -36,3 +36,13 @@ function 已载入词典() {
 function 查词(英文) {
   return 取释义(词典数据, 英文);
 }
+
+function 查词接口(待查词, 发送者, 返回释义) {
+  for (var 英文词 in 待查词) {
+    待查词[英文词] = 查词(英文词);
+  }
+  返回释义({所有释义: 待查词});
+  return true;
+}
+
+chrome.runtime.onMessageExternal.addListener(查词接口);
