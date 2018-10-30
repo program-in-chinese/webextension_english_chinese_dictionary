@@ -19,21 +19,24 @@ function 查词并显示(英文) {
       置弹窗内容("", "载入词典数据中...");
       return;
     }
-    var 释义 = 词典接口.查词(英文)
-    if (!释义) {
+    var 词条 = 词典接口.查词(英文);
+    var 中文释义 = 词条["中文"];
+    if (!中文释义) {
       英文 = 英文.toLowerCase();
-      释义 = 词典接口.查词(英文);
+      词条 = 词典接口.查词(英文);
+      中文释义 = 词条["中文"];
     }
-    if (!释义) {
+    if (!中文释义) {
       英文 = 英文.toUpperCase();
-      释义 = 词典接口.查词(英文);
+      词条 = 词典接口.查词(英文);
     }
-    置弹窗内容({"英文": 英文, "释义": 释义});
+    置弹窗内容({"英文": 英文, "释义": 词条["中文"], "词形": 词条["词形"]});
 }
 
 function 置弹窗内容(查词结果) {
   var 英文 = 查词结果.英文;
   var 释义 = 查词结果.释义;
+  var 词形 = 查词结果.词形;
   英文输入.value = 英文 ? 英文 : "";
   清除文本内容(释义部分);
   if (释义) {
@@ -44,6 +47,13 @@ function 置弹窗内容(查词结果) {
     }
   } else {
     置文本内容(释义部分, "未找到此词条");
+  }
+  if (词形.length > 0) {
+    var 词形显示 = "";
+    for (var 某词形 of 词形) {
+      词形显示 += 某词形.类型 + ": " + 某词形.变化 + "; ";
+    }
+    置文本内容(词形部分, 词形显示);
   }
 }
 
@@ -59,6 +69,7 @@ function 置文本内容(元素, 文本) {
 
 var 词典接口 = chrome.extension.getBackgroundPage();
 var 释义部分 = document.getElementById("释义");
+var 词形部分 = document.getElementById("词形");
 var 英文输入 = document.getElementById("英文输入");
 
 英文输入.addEventListener('keypress', function(e){

@@ -1,10 +1,15 @@
 const 词典路径 = '词典数据/词典'
+const 词形变化 = '词典数据/词形变化'
 const 文件扩展 = '.json'
 var 词典文件 = {};
+var 词形文件 = {};
 for (var 文件序号 = 0; 文件序号 < 16; 文件序号++) {
   词典文件[文件序号] = false;
 }
+词形文件[词形变化] = false;
+
 var 词典数据 = {};
+var 词形变化数据 = {};
 
 function 载入部分词典(文件) {
   return function () {
@@ -20,9 +25,18 @@ function 载入部分词典(文件) {
   }
 }
 
-for (var 文件 in 词典文件) {
-  载入部分词典(文件)();
-}
+fetch(chrome.runtime.getURL(词形变化 + 文件扩展))
+  .then((响应) => 响应.json())
+  .then((数据) => {
+    for (var 英文 in 数据) {
+      词形变化数据[英文] = 数据[英文];
+    }
+    词形文件[词形变化] = true;
+
+    for (var 文件 in 词典文件) {
+      载入部分词典(文件)();
+    }
+  });
 
 function 已载入词典() {
   for (var 文件 in 词典文件) {
@@ -30,11 +44,11 @@ function 已载入词典() {
       return false;
     }
   }
-  return true;
+  return 词形文件[词形变化];
 }
 
 function 查词(英文) {
-  return 取释义(词典数据, 英文);
+  return { "中文": 取释义(词典数据, 英文), "词形": 提取词形(词形变化数据[英文]) };
 }
 
 /**
@@ -47,7 +61,7 @@ function 查词接口(待查词, 发送者, 返回释义) {
   for (var 英文词 in 待查词) {
     待查词[英文词] = 查词(英文词);
   }
-  返回释义({所有释义: 待查词});
+  返回释义({ 所有释义: 待查词 });
   return true;
 }
 
